@@ -17,7 +17,9 @@ form.addEventListener("submit", async (event) => {
     safesearch: true,
   });
   url = `https://pixabay.com/api/?${searchParams}`;
+
   const photos = await fetchUsers();
+
   if (photos.err) {
     console.error(photos.err);
   } else {
