@@ -13,6 +13,11 @@ body {
   margin: 0 auto;
 }
 
+p {
+  padding: 0;
+  margin: 0;
+}
+
 .search-panel {
   width: 100%;
   display: flex;
@@ -51,8 +56,30 @@ button:focus {
 
 .gallery {
   max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 15px;
+  padding: 80px 10px;
   display: flex;
   flex-wrap: wrap;
+  gap: 10px;
+}
+
+.photo-card {
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.12), 0px 1px 1px rgba(0, 0, 0, 0.14),
+    0px 2px 1px rgba(0, 0, 0, 0.2);
+  border-radius: 0px 0px 4px 4px;
+  flex-basis: calc((100% - 30px) / 4);
+}
+
+.info {
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.info-item {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
 }
