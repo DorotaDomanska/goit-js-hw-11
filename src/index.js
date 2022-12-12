@@ -28,7 +28,7 @@ form.addEventListener("submit", async (event) => {
 });
 
 const renderPhotosList = (photos) => {
-  const htmlContent = photos
+  const htmlContent = photos.hits
     .map(
       ({
         webformatURL,
