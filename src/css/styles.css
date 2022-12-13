@@ -73,9 +73,9 @@ button:focus {
 }
 
 .info {
-  padding: 10px;
+  padding: 20px;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
 }
 
 .info-item {

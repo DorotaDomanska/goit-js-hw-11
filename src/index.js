@@ -9,6 +9,7 @@ let url = undefined;
 
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
+
   const searchParams = new URLSearchParams({
     key: "31924475-938fe2c560f7db586b0b43322",
     q: input.value,
@@ -20,11 +21,12 @@ form.addEventListener("submit", async (event) => {
 
   const photos = await fetchUsers();
 
-  if (photos.err) {
-    console.error(photos.err);
-  } else {
-    renderPhotosList(photos);
-  }
+  if (photos.err) console.error(photos.err);
+  if ((photos.hits = []))
+    return Notiflix.Notify.failure(
+      `Sorry, there are no images matching your search query. Please try again.`
+    );
+  renderPhotosList(photos);
 });
 
 const renderPhotosList = (photos) => {
