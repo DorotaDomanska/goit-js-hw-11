@@ -6,27 +6,32 @@ const form = document.querySelector("form.search-form");
 const input = document.querySelector("input");
 const gallery = document.querySelector("div.gallery");
 let url = undefined;
+const search = localStorage.getItem("searched-phrase");
 
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
+  if (search !== input.value) {
+    gallery.innerHTML = "";
+    localStorage.removeItem("searched-phrase");
+    localStorage.setItem("searched-phrase", input.value);
+    const searchParams = new URLSearchParams({
+      key: "31924475-938fe2c560f7db586b0b43322",
+      q: input.value,
+      image_type: "photo",
+      orientation: "horizontal",
+      safesearch: true,
+    });
+    url = `https://pixabay.com/api/?${searchParams}`;
 
-  const searchParams = new URLSearchParams({
-    key: "31924475-938fe2c560f7db586b0b43322",
-    q: input.value,
-    image_type: "photo",
-    orientation: "horizontal",
-    safesearch: true,
-  });
-  url = `https://pixabay.com/api/?${searchParams}`;
+    const photos = await fetchUsers();
 
-  const photos = await fetchUsers();
-
-  if (photos.err) console.error(photos.err);
-  if ((photos.hits = []))
-    return Notiflix.Notify.failure(
-      `Sorry, there are no images matching your search query. Please try again.`
-    );
-  renderPhotosList(photos);
+    if (photos.err) console.error(photos.err);
+    if (photos.total === 0)
+      return Notiflix.Notify.failure(
+        `Sorry, there are no images matching your search query. Please try again.`
+      );
+    renderPhotosList(photos);
+  }
 });
 
 const renderPhotosList = (photos) => {
