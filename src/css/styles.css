@@ -34,12 +34,12 @@ p {
 input {
   border: none;
   border-radius: 4px;
-  padding: 11px 11px 11px 11px;
+  padding: 11px;
   width: 300px;
   outline: none;
 }
 
-button {
+.search-button {
   position: absolute;
   right: 0;
   width: 37px;
@@ -48,9 +48,8 @@ button {
   border-radius: 4px;
   background-color: rgb(235, 235, 235);
 }
-
-button:hover,
-button:focus {
+.search-button:hover,
+.search-button:focus {
   cursor: pointer;
 }
 
@@ -82,4 +81,27 @@ button:focus {
   text-align: center;
   display: flex;
   flex-direction: column;
+}
+
+.load-more {
+  border: none;
+  border-radius: 4px;
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.12), 0px 1px 1px rgba(0, 0, 0, 0.14),
+    0px 2px 1px rgba(0, 0, 0, 0.2);
+  padding: 11px;
+  margin-bottom: 40px;
+  margin-left: 10px;
+  background-color: white;
+  text-align: center;
+  width: 300px;
+  outline: none;
+}
+
+.load-more:hover,
+.load-more:focus {
+  cursor: pointer;
+}
+
+.is-hidden {
+  display: none;
 }

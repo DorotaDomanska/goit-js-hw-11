@@ -2,9 +2,11 @@ import "./css/styles.css";
 import Notiflix from "notiflix";
 import axios from "axios";
 
+localStorage.removeItem("searched-phrase");
 const form = document.querySelector("form.search-form");
 const input = document.querySelector("input");
 const gallery = document.querySelector("div.gallery");
+const loadBtn = document.querySelector("button.load-more");
 let url = undefined;
 const search = localStorage.getItem("searched-phrase");
 
@@ -20,6 +22,7 @@ form.addEventListener("submit", async (event) => {
       image_type: "photo",
       orientation: "horizontal",
       safesearch: true,
+      per_page: 40,
     });
     url = `https://pixabay.com/api/?${searchParams}`;
 
@@ -31,6 +34,7 @@ form.addEventListener("submit", async (event) => {
         `Sorry, there are no images matching your search query. Please try again.`
       );
     renderPhotosList(photos);
+    loadBtn.classList.toggle("is-hidden");
   }
 });
 
