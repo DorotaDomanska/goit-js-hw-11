@@ -30,6 +30,7 @@ form.addEventListener("submit", async (event) => {
     const photos = await fetchPhotos();
     if (photos.err) console.error(photos.err);
     if (photos.total === 0) {
+      if (!(gallery.innerHTML = "")) loadBtn.classList.add("is-hidden");
       return Notiflix.Notify.failure(
         `Sorry, there are no images matching your search query. Please try again.`
       );
@@ -78,6 +79,7 @@ const renderPhotosList = (photos) => {
 };
 
 const loadMorePhotos = async () => {
+  loadBtn.classList.add("is-hidden");
   const searchNewParams = new URLSearchParams({
     key: "31924475-938fe2c560f7db586b0b43322",
     q: input.value,
@@ -93,6 +95,8 @@ const loadMorePhotos = async () => {
   console.log(newPhotos);
   if (newPhotos.err) console.error(newPhotos.err);
   renderPhotosList(newPhotos);
+  loadBtn.classList.remove("is-hidden");
+
   const totalPages = Math.ceil(newPhotos.totalHits / 40);
 
   if (page >= totalPages) {
@@ -101,6 +105,7 @@ const loadMorePhotos = async () => {
       `We're sorry, but you've reached the end of search results.`
     );
   }
+
   page++;
 };
 
