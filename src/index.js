@@ -9,6 +9,7 @@ const gallery = document.querySelector("div.gallery");
 const loadBtn = document.querySelector("button.load-more");
 let url = undefined;
 const search = localStorage.getItem("searched-phrase");
+let page = 2;
 
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
@@ -26,8 +27,7 @@ form.addEventListener("submit", async (event) => {
     });
     url = `https://pixabay.com/api/?${searchParams}`;
 
-    const photos = await fetchUsers();
-
+    const photos = await fetchPhotos();
     if (photos.err) console.error(photos.err);
     if (photos.total === 0)
       return Notiflix.Notify.failure(
@@ -76,7 +76,32 @@ const renderPhotosList = (photos) => {
   gallery.innerHTML += htmlContent;
 };
 
-const fetchUsers = async () => {
+const loadMorePhotos = async () => {
+  const searchNewParams = new URLSearchParams({
+    key: "31924475-938fe2c560f7db586b0b43322",
+    q: input.value,
+    image_type: "photo",
+    orientation: "horizontal",
+    safesearch: true,
+    per_page: 40,
+    page: page,
+  });
+  url = `https://pixabay.com/api/?${searchNewParams}`;
+
+  const newPhotos = await fetchPhotos();
+
+  if (newPhotos.err) console.error(newPhotos.err);
+  // if (newPhotos.total === 0)
+  //   return Notiflix.Notify.failure(
+  //     `Sorry, there are no images matching your search query. Please try again.`
+  //   );
+  renderPhotosList(newPhotos);
+  page++;
+};
+
+loadBtn.addEventListener("click", loadMorePhotos);
+
+const fetchPhotos = async () => {
   const result = await axios.get(url);
 
   if (result.status >= 400) {
