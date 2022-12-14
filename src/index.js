@@ -95,10 +95,12 @@ const loadMorePhotos = async () => {
   renderPhotosList(newPhotos);
   const totalPages = Math.ceil(newPhotos.totalHits / 40);
 
-  if ((page = totalPages))
+  if (page >= totalPages) {
+    loadBtn.classList.add("is-hidden");
     return Notiflix.Notify.info(
       `We're sorry, but you've reached the end of search results.`
     );
+  }
   page++;
 };
 
