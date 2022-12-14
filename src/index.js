@@ -29,12 +29,13 @@ form.addEventListener("submit", async (event) => {
 
     const photos = await fetchPhotos();
     if (photos.err) console.error(photos.err);
-    if (photos.total === 0)
+    if (photos.total === 0) {
       return Notiflix.Notify.failure(
         `Sorry, there are no images matching your search query. Please try again.`
       );
+    }
     renderPhotosList(photos);
-    loadBtn.classList.toggle("is-hidden");
+    loadBtn.classList.remove("is-hidden");
   }
 });
 
@@ -89,13 +90,15 @@ const loadMorePhotos = async () => {
   url = `https://pixabay.com/api/?${searchNewParams}`;
 
   const newPhotos = await fetchPhotos();
-
+  console.log(newPhotos);
   if (newPhotos.err) console.error(newPhotos.err);
-  // if (newPhotos.total === 0)
-  //   return Notiflix.Notify.failure(
-  //     `Sorry, there are no images matching your search query. Please try again.`
-  //   );
   renderPhotosList(newPhotos);
+  const totalPages = Math.ceil(newPhotos.totalHits / 40);
+
+  if ((page = totalPages))
+    return Notiflix.Notify.info(
+      `We're sorry, but you've reached the end of search results.`
+    );
   page++;
 };
 
