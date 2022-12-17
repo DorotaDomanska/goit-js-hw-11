@@ -10,6 +10,7 @@ const input = document.querySelector("input");
 const gallery = document.querySelector("div.gallery");
 const loadBtn = document.querySelector("button.load-more");
 const topBtn = document.querySelector("button.top-btn");
+let searchParams = undefined;
 let url = undefined;
 const search = localStorage.getItem("searched-phrase");
 let page = 2;
@@ -20,7 +21,7 @@ form.addEventListener("submit", async (event) => {
     gallery.innerHTML = "";
     localStorage.removeItem("searched-phrase");
     localStorage.setItem("searched-phrase", input.value);
-    const searchParams = new URLSearchParams({
+    searchParams = new URLSearchParams({
       key: "31924475-938fe2c560f7db586b0b43322",
       q: input.value,
       image_type: "photo",
@@ -39,7 +40,8 @@ form.addEventListener("submit", async (event) => {
       );
     }
     renderPhotosList(photos);
-    loadBtn.classList.remove("is-hidden");
+    scrollDown();
+    if (photos.hits.length >= 40) loadBtn.classList.remove("is-hidden");
   }
 });
 
@@ -83,27 +85,16 @@ const renderPhotosList = (photos) => {
   gallery.innerHTML += htmlContent;
 };
 
-let lightbox = new SimpleLightbox(".photo-card a", {
-  captionsData: "alt",
-});
-
 const loadMorePhotos = async () => {
   loadBtn.classList.add("is-hidden");
-  const searchNewParams = new URLSearchParams({
-    key: "31924475-938fe2c560f7db586b0b43322",
-    q: input.value,
-    image_type: "photo",
-    orientation: "horizontal",
-    safesearch: true,
-    per_page: 40,
-    page: page,
-  });
-  url = `https://pixabay.com/api/?${searchNewParams}`;
+  searchParams.append("page", page);
+  url = `https://pixabay.com/api/?${searchParams}`;
 
   const newPhotos = await fetchPhotos();
   Notiflix.Notify.success(`Hooray! We found ${newPhotos.totalHits} images.`);
   if (newPhotos.err) console.error(newPhotos.err);
   renderPhotosList(newPhotos);
+  scrollDown();
   loadBtn.classList.remove("is-hidden");
 
   const totalPages = Math.ceil(newPhotos.totalHits / 40);
@@ -148,3 +139,13 @@ const topFunction = () => {
 };
 
 topBtn.addEventListener("click", topFunction);
+
+const scrollDown = () => {
+  const { height: cardHeight } =
+    gallery.firstElementChild.getBoundingClientRect();
+
+  window.scrollBy({
+    top: cardHeight * 12,
+    behavior: "smooth",
+  });
+};
