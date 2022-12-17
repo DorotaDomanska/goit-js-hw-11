@@ -1,12 +1,15 @@
 import "./css/styles.css";
 import Notiflix from "notiflix";
 import axios from "axios";
+import SimpleLightbox from "simplelightbox";
+import "simplelightbox/dist/simple-lightbox.min.css";
 
 localStorage.removeItem("searched-phrase");
 const form = document.querySelector("form.search-form");
 const input = document.querySelector("input");
 const gallery = document.querySelector("div.gallery");
 const loadBtn = document.querySelector("button.load-more");
+const topBtn = document.querySelector("button.top-btn");
 let url = undefined;
 const search = localStorage.getItem("searched-phrase");
 let page = 2;
@@ -53,7 +56,9 @@ const renderPhotosList = (photos) => {
         downloads,
       }) => `
       <div class="photo-card">
-        <img src="${webformatURL}" alt="${tags}" loading="lazy" />
+        <a class="gallery__item" href="${largeImageURL}">
+          <img src="${webformatURL}" alt="${tags}" loading="lazy" />
+        </a>
         <div class="info">
           <p class="info-item">
             <b>Likes</b>
@@ -78,6 +83,10 @@ const renderPhotosList = (photos) => {
   gallery.innerHTML += htmlContent;
 };
 
+let lightbox = new SimpleLightbox(".photo-card a", {
+  captionsData: "alt",
+});
+
 const loadMorePhotos = async () => {
   loadBtn.classList.add("is-hidden");
   const searchNewParams = new URLSearchParams({
@@ -92,7 +101,7 @@ const loadMorePhotos = async () => {
   url = `https://pixabay.com/api/?${searchNewParams}`;
 
   const newPhotos = await fetchPhotos();
-  console.log(newPhotos);
+  Notiflix.Notify.success(`Hooray! We found ${newPhotos.totalHits} images.`);
   if (newPhotos.err) console.error(newPhotos.err);
   renderPhotosList(newPhotos);
   loadBtn.classList.remove("is-hidden");
@@ -120,3 +129,22 @@ const fetchPhotos = async () => {
 
   return result.data;
 };
+
+window.onscroll = () => {
+  scrollFunction();
+};
+
+const scrollFunction = () => {
+  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+    topBtn.style.display = "block";
+  } else {
+    topBtn.style.display = "none";
+  }
+};
+
+const topFunction = () => {
+  document.body.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
+};
+
+topBtn.addEventListener("click", topFunction);
