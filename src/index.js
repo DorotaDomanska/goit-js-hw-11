@@ -166,9 +166,9 @@ observer.observe(loader);
 
 const loadMethodChange = () => {
   if (switchInput.checked == true) {
-    loadBtn.style.display = none;
+    loadBtn.style.display = "none";
   } else {
-    loader.style.display = none;
+    loader.style.display = "none";
   }
 };
 
