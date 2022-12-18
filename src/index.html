@@ -8,8 +8,17 @@
   </head>
   <body>
     <div class="search-panel">
+      <div class="switch-box">
+        <span class="switch-box_text">Load button</span>
+        <label class="switch">
+          <input class="switch_input" type="checkbox" />
+          <span class="slider round"></span>
+        </label>
+        <span class="switch-box_text">Infinite scroll</span>
+      </div>
       <form class="search-form" id="search-form">
         <input
+          class="searchQuery"
           type="text"
           name="searchQuery"
           autocomplete="off"
@@ -26,6 +35,7 @@
     <div class="gallery"></div>
     <button type="button" class="load-more is-hidden">Load more</button>
     <button type="button" class="top-btn">Top</button>
+    <div class="loader" id="load-more"></div>
 
     <script src="index.js" type="module"></script>
   </body>

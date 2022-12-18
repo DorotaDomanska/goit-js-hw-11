@@ -6,10 +6,12 @@ import "simplelightbox/dist/simple-lightbox.min.css";
 
 localStorage.removeItem("searched-phrase");
 const form = document.querySelector("form.search-form");
-const input = document.querySelector("input");
+const input = document.querySelector("input.searchQuery");
 const gallery = document.querySelector("div.gallery");
 const loadBtn = document.querySelector("button.load-more");
 const topBtn = document.querySelector("button.top-btn");
+const loader = document.querySelector("div.loader");
+const switchInput = document.querySelector("input.switch_input");
 let searchParams = undefined;
 let url = undefined;
 const search = localStorage.getItem("searched-phrase");
@@ -149,3 +151,25 @@ const scrollDown = () => {
     behavior: "smooth",
   });
 };
+
+let debounce = 0;
+const observer = new IntersectionObserver(([entry]) => {
+  if (!entry.isIntersecting) return;
+
+  if (debounce + 3000 < Date.now()) {
+    loadMorePhotos();
+    debounce = Date.now();
+  }
+});
+
+observer.observe(loader);
+
+const loadMethodChange = () => {
+  if (switchInput.checked == true) {
+    loadBtn.style.display = none;
+  } else {
+    loader.style.display = none;
+  }
+};
+
+switchInput.addEventListener("click", loadMethodChange);
