@@ -162,13 +162,12 @@ const observer = new IntersectionObserver(([entry]) => {
   }
 });
 
-observer.observe(loader);
-
 const loadMethodChange = () => {
   if (switchInput.checked == true) {
     loadBtn.style.display = "none";
+    observer.observe(loader);
   } else {
-    loader.style.display = "none";
+    loadBtn.style.display = "block";
   }
 };
 
