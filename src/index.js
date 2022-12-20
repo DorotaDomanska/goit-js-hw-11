@@ -16,6 +16,7 @@ let searchParams = undefined;
 let url = undefined;
 const search = localStorage.getItem("searched-phrase");
 let page = 2;
+let gallerySimpleLightbox = new SimpleLightbox(".gallery a");
 
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
@@ -85,6 +86,7 @@ const renderPhotosList = (photos) => {
     )
     .join("");
   gallery.innerHTML += htmlContent;
+  gallerySimpleLightbox.refresh();
 };
 
 const loadMorePhotos = async () => {
@@ -96,7 +98,6 @@ const loadMorePhotos = async () => {
   Notiflix.Notify.success(`Hooray! We found ${newPhotos.totalHits} images.`);
   if (newPhotos.err) console.error(newPhotos.err);
   renderPhotosList(newPhotos);
-  lightbox.refresh();
   scrollDown();
   loadBtn.classList.remove("is-hidden");
 
@@ -111,9 +112,6 @@ const loadMorePhotos = async () => {
 
   page++;
 };
-
-let gallerySimpleLightbox = new SimpleLightbox(".gallery a");
-gallerySimpleLightbox.on("show.simplelightbox");
 
 loadBtn.addEventListener("click", loadMorePhotos);
 
