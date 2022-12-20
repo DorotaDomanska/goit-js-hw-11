@@ -96,6 +96,7 @@ const loadMorePhotos = async () => {
   Notiflix.Notify.success(`Hooray! We found ${newPhotos.totalHits} images.`);
   if (newPhotos.err) console.error(newPhotos.err);
   renderPhotosList(newPhotos);
+  lightbox.refresh();
   scrollDown();
   loadBtn.classList.remove("is-hidden");
 
@@ -110,6 +111,9 @@ const loadMorePhotos = async () => {
 
   page++;
 };
+
+let gallerySimpleLightbox = new SimpleLightbox(".gallery a");
+gallerySimpleLightbox.on("show.simplelightbox");
 
 loadBtn.addEventListener("click", loadMorePhotos);
 
