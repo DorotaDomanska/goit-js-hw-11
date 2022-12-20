@@ -163,10 +163,8 @@ const loadMethodChange = () => {
   if (switchInput.checked == true) {
     loadBtn.style.display = "none";
     intersectionObserver.observe(loader);
-    console.log("infinite");
     return;
   }
-  console.log("btn");
 };
 
 switchInput.addEventListener("click", loadMethodChange);
