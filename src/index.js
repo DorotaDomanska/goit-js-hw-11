@@ -16,7 +16,10 @@ let searchParams = undefined;
 let url = undefined;
 const search = localStorage.getItem("searched-phrase");
 let page = 2;
-let gallerySimpleLightbox = new SimpleLightbox(".gallery a");
+const gallerySimpleLightbox = new SimpleLightbox(".gallery a", {
+  captionsData: "alt",
+  captionDelay: 250,
+});
 
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
@@ -137,12 +140,9 @@ const scrollFunction = () => {
   }
 };
 
-const topFunction = () => {
-  document.body.scrollTop = 0;
-  document.documentElement.scrollTop = 0;
-};
-
-topBtn.addEventListener("click", topFunction);
+topBtn.addEventListener("click", () => {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+});
 
 const scrollDown = () => {
   const { height: cardHeight } =
