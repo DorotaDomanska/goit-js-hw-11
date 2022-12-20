@@ -165,6 +165,7 @@ const loadMethodChange = () => {
     intersectionObserver.observe(loader);
     return;
   }
+  loader.style.display = "none";
 };
 
 switchInput.addEventListener("click", loadMethodChange);
