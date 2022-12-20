@@ -109,6 +109,10 @@ img {
   cursor: pointer;
 }
 
+.loader {
+  margin-top: 80px;
+}
+
 .top-btn {
   display: none;
   position: fixed;

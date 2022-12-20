@@ -149,28 +149,24 @@ const scrollDown = () => {
     gallery.firstElementChild.getBoundingClientRect();
 
   window.scrollBy({
-    top: cardHeight * 12,
+    top: cardHeight * 10,
     behavior: "smooth",
   });
 };
 
-let debounce = 0;
-const observer = new IntersectionObserver(([entry]) => {
-  if (!entry.isIntersecting) return;
-
-  if (debounce + 3000 < Date.now()) {
-    loadMorePhotos();
-    debounce = Date.now();
-  }
+const intersectionObserver = new IntersectionObserver((entries) => {
+  if (entries[0].intersectionRatio <= 0) return;
+  loadMorePhotos();
 });
 
 const loadMethodChange = () => {
   if (switchInput.checked == true) {
     loadBtn.style.display = "none";
-    observer.observe(loader);
-  } else {
-    loadBtn.style.display = "block";
+    intersectionObserver.observe(loader);
+    console.log("infinite");
+    return;
   }
+  console.log("btn");
 };
 
 switchInput.addEventListener("click", loadMethodChange);
