@@ -46,7 +46,6 @@ form.addEventListener("submit", async (event) => {
       );
     }
     renderPhotosList(photos);
-    scrollDown();
     if (photos.hits.length >= 40) loadBtn.classList.remove("is-hidden");
   }
 });
@@ -112,7 +111,7 @@ const loadMorePhotos = async () => {
       `We're sorry, but you've reached the end of search results.`
     );
   }
-
+  if (switchInput.checked == true) loadBtn.classList.add("is-hidden");
   page++;
 };
 
@@ -149,7 +148,7 @@ const scrollDown = () => {
     gallery.firstElementChild.getBoundingClientRect();
 
   window.scrollBy({
-    top: cardHeight * 10,
+    top: cardHeight * 1,
     behavior: "smooth",
   });
 };
@@ -161,11 +160,12 @@ const intersectionObserver = new IntersectionObserver((entries) => {
 
 const loadMethodChange = () => {
   if (switchInput.checked == true) {
-    loadBtn.style.display = "none";
     intersectionObserver.observe(loader);
+    loadBtn.classList.add("is-hidden");
     return;
   }
-  loader.style.display = "none";
+  intersectionObserver.unobserve(loader);
+  loadBtn.classList.toggle("is-hidden");
 };
 
 switchInput.addEventListener("click", loadMethodChange);
